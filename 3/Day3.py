@@ -22,7 +22,7 @@ class Solution(object):
         return 2
 
     def run(self):
-        input_list = common.loadInput('input.txt', True)
+        input_list = common.loadInput('input3.txt', True)
         print('Advent Day: X')
         self.part1(input_list)
         self.part2(input_list)

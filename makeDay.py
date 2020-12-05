@@ -1,49 +1,46 @@
 #!/usr/bin/python3
 #
-import os, sys, shutil, stat
+import os
+import sys
+from typing import TextIO
 
 
-class Makeday(object):
+class MakeDay(object):
 
-	def generate(self, dayName):
-		#dir is not keyword
-		def createDir(name):
-		  try:
-		    os.makedirs(name)
-		  except OSError:
-		    pass
+    @staticmethod
+    def generate(day_name):
+        # dir is not keyword
+        def create_dir(name):
+            try:
+                os.makedirs(name)
+            except OSError:
+                pass
 
+        create_dir(day_name)
 
-		createDir(dayName)
+        path = os.path.dirname(os.path.abspath(__file__))
+        # solution files
+        class_name = 'Day%s' % day_name
 
+        files = {'standard.py': 'Day%s.py',
+                 'solutionTest.py': 'Tests%s.py',
+                 'testInput.txt': 'testInput%s.txt',
+                 'input.txt': 'input%s.txt'
+                 }
+        for key in files:
+            input_file: TextIO = open('%s\\scaffolding\\%s' % (path, key), 'r')
+            day_code = input_file.read()
+            day_code = day_code.replace('standard', class_name)
+            day_code = day_code.replace('input.txt', 'input%s.txt' % day_name)
+            day_code = day_code.replace('testInput.txt', 'testInput%s.txt' % day_name)
+            input_file.close()
 
-		path = os.path.dirname(os.path.abspath(__file__))
-		#solution files
-		shutil.copyfile('%s/scaffolding/standard.py' % path, '%s/%s/sol%sa.py' % (path,dayName,dayName))
-		shutil.copyfile('%s/scaffolding/standard.py' % path, '%s/%s/sol%sb.py' % (path,dayName,dayName))
+            input_file = open('%s\\%s\\%s' % (path, day_name, files[key] % day_name), 'w')
+            input_file.write(day_code)
+            input_file.close()
 
-		#unittests
-		shutil.copyfile('%s/scaffolding/solutiontest.py' % path, '%s/%s/test%sa.py' % (path,dayName,dayName))
-		shutil.copyfile('%s/scaffolding/solutiontest.py' % path, '%s/%s/test%sb.py' % (path,dayName,dayName))
+        print('generated day %s' % day_name)
 
-		#test input
-		shutil.copyfile('%s/scaffolding/testInput.txt' % path, '%s/%s/testInput.txt' % (path,dayName))
-
-		#set executable on all the scripts
-		#solution files
-		st = os.stat('%s/%s/sol%sa.py' % (path,dayName,dayName))
-		os.chmod('%s/%s/sol%sa.py' % (path,dayName,dayName), st.st_mode | stat.S_IEXEC)
-		st = os.stat('%s/%s/sol%sb.py' % (path,dayName,dayName))
-		os.chmod('%s/%s/sol%sb.py' % (path,dayName,dayName), st.st_mode | stat.S_IEXEC)
-		
-		#test files
-		st = os.stat('%s/%s/test%sa.py' % (path,dayName,dayName))
-		os.chmod('%s/%s/test%sa.py' % (path,dayName,dayName), st.st_mode | stat.S_IEXEC)
-
-		st = os.stat('%s/%s/test%sb.py' % (path,dayName,dayName))
-		os.chmod('%s/%s/test%sb.py' % (path,dayName,dayName), st.st_mode | stat.S_IEXEC)
 
 if __name__ == '__main__':
-	Makeday().generate(sys.argv[1])
-
-
+    MakeDay().generate(sys.argv[1])
