@@ -22,8 +22,8 @@ class Solution(object):
         return 2
 
     def run(self):
-        input_list = common.loadInput('input.txt', True)
-        print('Advent Day: standard')
+        input_list = common.loadInput('input4.txt', True)
+        print('Advent Day: Day4')
         p1 = self.part1(input_list)
         print('Part1: %s' % str(p1))
         p2 = self.part2(input_list)

@@ -13,7 +13,12 @@ class SolutionTest(unittest.TestCase):
                 #remember to set the assert to the known examples and place the example test into testInput3.txt!
                 input_list = common.loadInput('testInput3.txt', True)
                 testObject = Day3.Solution()
-                self.assertEqual(138, testObject.part1(input_list = input_list))
+                self.assertEqual(7, testObject.part1(input_list))
+
+        def test_run_pt2(self):
+                input_list = common.loadInput('testInput3.txt', True)
+                testObject = Day3.Solution()
+                self.assertEqual(336, testObject.part2(input_list))
 
 
 if __name__ == '__main__':
