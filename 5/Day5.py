@@ -20,7 +20,7 @@ class Solution(object):
     @staticmethod
     def find_middle(directions: str, min_s, max_s):
         for c in directions:
-            if c in ['F','L']:
+            if c in ['F', 'L']:
                 max_s = min_s + math.floor((max_s - min_s) / 2)
             if c in ['B', 'R']:
                 min_s = min_s + math.ceil((max_s - min_s) / 2)
